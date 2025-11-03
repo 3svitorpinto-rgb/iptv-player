@@ -1,286 +1,462 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-PT">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV Expert Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta property="og:title" content="IPTV Player Pro - Vitor Pinto Productions">
+    <meta property="og:description" content="Reprodutor IPTV Profissional com Interface Premium">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%23000' width='1200' height='630'/%3E%3Crect fill='%2300a651' width='1200' height='210'/%3E%3Crect fill='%23ce1126' y='210' width='1200' height='210'/%3E%3Crect fill='%23ffd700' y='420' width='1200' height='210'/%3E%3Ctext x='600' y='315' font-size='120' fill='%23fff' text-anchor='middle' font-weight='bold'%3E🎬 IPTV PLAYER%3C/text%3E%3C/svg%3E">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#00a651">
+    
+    <title>🎬 IPTV Player Pro - Vitor Pinto Productions</title>
+    
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        body {
-            background: #0a0e27;
-            color: #FFF;
-            font-family: Arial, sans-serif;
+
+        :root {
+            --primary-green: #00a651;
+            --primary-red: #ce1126;
+            --primary-gold: #ffd700;
         }
-        header {
-            background: #006600;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #FFD700;
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            position: fixed;
         }
-        header h1 {
-            color: #FFD700;
-            font-size: 32px;
-            margin-bottom: 5px;
-        }
-        header p {
-            color: #FFF;
-            font-size: 14px;
-        }
+
         .container {
             display: flex;
-            height: calc(100vh - 100px);
-            gap: 10px;
-            padding: 10px;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
-        .player {
-            flex: 2;
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(-45deg, #000, #1a1a1a, #000, #1a1a1a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header com WOW */
+        .header {
+            background: linear-gradient(90deg, var(--primary-green) 0%, #000 50%, var(--primary-red) 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--primary-gold);
+            box-shadow: 0 10px 40px rgba(0, 166, 81, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-size: clamp(28px, 8vw, 48px);
+            background: linear-gradient(135deg, var(--primary-gold) 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            animation: textGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(206, 17, 38, 0.6));
+            }
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #e0e0e0;
+            letter-spacing: 2px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+            min-height: 0;
+            animation: fadeIn 1.5s ease-out 0.3s both;
         }
-        .video-box {
-            background: #000;
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .player-box {
             flex: 1;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            background: #000;
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
             overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 166, 81, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: zoomIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+            min-height: 0;
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #player-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Buttons Section */
+        .buttons-section {
+            display: flex;
+            gap: 10px;
+            animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #06a047 100%);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 8px 20px rgba(0, 166, 81, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        video {
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
             height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
-        .info {
-            background: #1a1f3a;
-            padding: 15px;
-            border-radius: 4px;
-            border-left: 4px solid #FFD700;
+
+        .btn:hover::before {
+            left: 100%;
         }
-        .info h3 {
-            color: #FFD700;
-            margin-bottom: 8px;
-            font-size: 14px;
+
+        .btn:active {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
+            transform: scale(0.95);
+            box-shadow: 0 4px 15px rgba(206, 17, 38, 0.5);
         }
-        .info p {
-            color: #AAA;
-            font-size: 12px;
+
+        .btn:hover {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(206, 17, 38, 0.4);
         }
-        .list {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 280px;
-        }
-        .controls {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-        button {
-            flex: 1;
-            padding: 12px;
-            background: #006600;
-            color: #FFD700;
-            border: 2px solid #FFD700;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #009900;
-            transform: scale(1.05);
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            background: #1a1f3a;
-            color: #FFF;
-            border: 2px solid #2a3f5f;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-        input::placeholder {
-            color: #666;
-        }
-        .status {
-            background: #FF0000;
-            color: #FFD700;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-        }
-        .channels {
-            flex: 1;
-            overflow-y: auto;
-            border: 2px solid #2a3f5f;
-            border-radius: 4px;
-            background: #1a1f3a;
-        }
-        .channel {
-            padding: 10px;
-            border-bottom: 1px solid #2a3f5f;
-            cursor: pointer;
-            font-size: 12px;
-            transition: 0.2s;
-            user-select: none;
-        }
-        .channel:hover {
-            background: #2a3f5f;
-            padding-left: 15px;
-        }
-        .channel.active {
-            background: #006600;
-            border-left: 4px solid #FFD700;
-            color: #FFD700;
-            font-weight: bold;
-        }
-        footer {
-            background: #FF0000;
-            color: #FFD700;
+
+        /* Info Bar */
+        .info-bar {
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2) 0%, rgba(206, 17, 38, 0.2) 100%);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
             padding: 12px;
             text-align: center;
             font-size: 11px;
-            border-top: 3px solid #FFD700;
+            color: #e0e0e0;
+            animation: bounceIn 1s ease-out 0.6s both;
         }
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
-        ::-webkit-scrollbar-track {
-            background: #1a1f3a;
+
+        .info-bar strong {
+            color: var(--primary-gold);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #006600;
-            border-radius: 4px;
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(90deg, #000 0%, var(--primary-green) 50%, #000 100%);
+            border-top: 3px solid var(--primary-red);
+            padding: 12px;
+            text-align: center;
+            font-size: 10px;
+            color: #aaa;
+            animation: slideInUp 0.8s ease-out 0.7s both;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #009900;
+
+        .footer p {
+            margin: 2px 0;
+        }
+
+        .footer strong {
+            color: var(--primary-gold);
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-green);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            .btn {
+                font-size: 12px;
+                padding: 12px;
+            }
+        }
+
+        /* Landscape */
+        @media (max-height: 600px) {
+            .header {
+                padding: 12px;
+            }
+            .content {
+                gap: 8px;
+                padding: 8px;
+            }
+            .btn {
+                padding: 10px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>IPTV EXPERT PRO</h1>
-        <p>Reproductor de TV en Directo</p>
-    </header>
-    
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Container -->
     <div class="container">
-        <div class="player">
-            <div class="video-box">
-                <video id="player" controls crossorigin="anonymous"></video>
+        <!-- Header -->
+        <div class="header">
+            <h1>🎬 IPTV PLAYER PRO</h1>
+            <p>VITOR PINTO PRODUCTIONS © 2025</p>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Player -->
+            <div class="player-box">
+                <iframe id="player-frame" src="http://webtv.iptvsmarters.com/switchuser.php" allowfullscreen allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             </div>
-            <div class="info">
-                <h3>REPRODUZINDO:</h3>
-                <p id="info">Selecione um canal para começar</p>
+
+            <!-- Controls -->
+            <div class="buttons-section">
+                <button class="btn" onclick="resetPlayer()">🔄 Recarregar</button>
+                <button class="btn" onclick="toggleFullscreen()">📺 Fullscreen</button>
+                <button class="btn" onclick="shareOnFacebook()">📱 Partilhar</button>
+            </div>
+
+            <!-- Info -->
+            <div class="info-bar">
+                <strong>⚡ IPTV PLAYER PROFISSIONAL</strong>
+                Desenvolvido por Vitor Pinto Productions | Interface Premium com Efeitos WOW
             </div>
         </div>
-        
-        <div class="list">
-            <div class="status" id="status">Pronto</div>
-            <div class="controls">
-                <button onclick="loadM3U()">📁 Carregar M3U</button>
-                <button onclick="stopChannel()">⏹ Parar</button>
-            </div>
-            <input id="search" type="text" placeholder="🔍 Pesquisar..." onkeyup="filterChannels()">
-            <div class="channels" id="list"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>IPTV Player Web Professional Edition</strong></p>
+            <p>Vitor Pinto Productions © 2025 - Todos os direitos reservados</p>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     
-    <footer>
-        Vitor Pinto 2025 | IPTV Expert Pro | Versão Web HTML5
-    </footer>
-
     <script>
-        let channels = [];
-        let filteredChannels = [];
-        let currentIndex = -1;
-        const player = document.getElementById('player');
-        const infoText = document.getElementById('info');
-        const statusText = document.getElementById('status');
-        const listDiv = document.getElementById('list');
+        // Inicializar WOW.js
+        new WOW().init();
 
-        function loadM3U() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.m3u,.m3u8';
-            input.onchange = (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    channels = [];
-                    const lines = event.target.result.split('\n');
-                    
-                    for (let i = 0; i < lines.length; i++) {
-                        const line = lines[i].trim();
-                        if (line.includes('#EXTINF')) {
-                            const title = line.split(',')[1]?.trim() || 'Canal sem nome';
-                            const url = lines[i + 1]?.trim();
-                            if (url && !url.startsWith('#')) {
-                                channels.push({ title, url });
-                            }
-                        }
-                    }
-                    
-                    filteredChannels = [...channels];
-                    renderChannels();
-                    statusText.textContent = `✅ Carregado: ${channels.length} canais`;
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        function renderChannels() {
-            if (filteredChannels.length === 0) {
-                listDiv.innerHTML = '<div style="padding:20px;text-align:center;color:#666">Nenhum canal carregado</div>';
-                return;
+        // Criar partículas animadas
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 100 + 50) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animation = `float ${Math.random() * 20 + 10}s infinite ease-in-out`;
+                particles.appendChild(particle);
             }
-            
-            listDiv.innerHTML = filteredChannels
-                .map((ch, idx) => `<div class="channel" onclick="playChannel(${idx})">${idx + 1}. ${ch.title}</div>`)
-                .join('');
         }
 
-        function playChannel(idx) {
-            if (idx < 0 || idx >= filteredChannels.length) return;
-            
-            currentIndex = idx;
-            const channel = filteredChannels[idx];
-            infoText.textContent = channel.title;
-            statusText.textContent = `▶ Reproduzindo: ${channel.title}`;
-            player.src = channel.url;
-            player.play().catch(e => {
-                statusText.textContent = `❌ ERRO: ${e.message}`;
+        createParticles();
+
+        // Adicionar keyframe para partículas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translate(0, 0); opacity: 0.1; }
+                50% { transform: translate(30px, -30px); opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Funções
+        function resetPlayer() {
+            const frame = document.getElementById('player-frame');
+            frame.src = 'about:blank';
+            setTimeout(() => {
+                frame.src = 'http://webtv.iptvsmarters.com/switchuser.php';
+            }, 500);
+        }
+
+        function toggleFullscreen() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen?.() ||
+                elem.webkitRequestFullscreen?.() ||
+                elem.mozRequestFullScreen?.() ||
+                elem.msRequestFullscreen?.();
+            } else {
+                document.exitFullscreen?.() ||
+                document.webkitExitFullscreen?.() ||
+                document.mozCancelFullScreen?.() ||
+                document.msExitFullscreen?.();
+            }
+        }
+
+        function shareOnFacebook() {
+            const pageUrl = window.location.href;
+            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=🎬 Veja IPTV Player Pro - Reprodutor Profissional com Interface Premium!`;
+            window.open(facebookShareUrl, 'facebook-share', 'width=600,height=400');
+        }
+
+        // Vibração feedback
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if ('vibrate' in navigator) {
+                    navigator.vibrate([50, 30, 50]);
+                }
             });
-        }
+        });
 
-        function filterChannels() {
-            const search = document.getElementById('search').value.toLowerCase();
-            filteredChannels = search 
-                ? channels.filter(ch => ch.title.toLowerCase().includes(search))
-                : [...channels];
-            renderChannels();
-        }
+        // Prevenir zoom
+        document.addEventListener('touchmove', e => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
 
-        function stopChannel() {
-            player.src = '';
-            player.pause();
-            infoText.textContent = 'Parado';
-            statusText.textContent = 'Parado';
-            currentIndex = -1;
-        }
+        console.log('IPTV Player Pro - Pronto para publicar no Facebook! 🎬');
     </script>
 </body>
 </html>
+

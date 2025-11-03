@@ -44,7 +44,9 @@
             padding: 15px;
             text-align: center;
             border-bottom: 3px solid var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
             animation: slideInDown 0.8s ease-out;
+            z-index: 10;
         }
 
         @keyframes slideInDown {
@@ -58,12 +60,12 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 4px;
         }
 
         .header p {
             font-size: 11px;
             color: #aaa;
-            margin-top: 4px;
         }
 
         .controls-bar {
@@ -71,42 +73,88 @@
             border-bottom: 2px solid var(--primary-green);
             padding: 12px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
             animation: slideInDown 0.8s ease-out 0.1s both;
+            z-index: 5;
         }
 
         .btn {
             flex: 1;
-            padding: 12px;
+            min-width: 80px;
+            padding: 10px;
             background: linear-gradient(135deg, var(--primary-green) 0%, #06a047 100%);
             color: var(--primary-gold);
             border: 2px solid var(--primary-gold);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             transition: all 0.3s;
         }
 
         .btn:hover {
             background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(206, 17, 38, 0.4);
         }
 
         .btn:active {
             transform: scale(0.95);
         }
 
-        .player-container {
+        .player-area {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
             overflow: hidden;
-            position: relative;
         }
 
-        .player-container iframe {
+        .player-wrapper {
+            flex: 1;
+            background: #000;
+            border: 3px solid var(--primary-green);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 166, 81, 0.2);
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .player-wrapper iframe,
+        .player-wrapper video {
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.15), rgba(206, 17, 38, 0.15));
+            border: 2px solid var(--primary-gold);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #e0e0e0;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .status-bar strong {
+            color: var(--primary-gold);
+            display: block;
+            margin-bottom: 4px;
         }
 
         .footer {
@@ -116,6 +164,72 @@
             text-align: center;
             font-size: 9px;
             color: #aaa;
+            z-index: 5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2), rgba(206, 17, 38, 0.2));
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 500px;
+            width: 100%;
+            color: #e0e0e0;
+            text-align: center;
+        }
+
+        .modal-content h2 {
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .modal-content a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .modal-content a:hover {
+            color: var(--primary-red);
+        }
+
+        .close-btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--primary-green);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .close-btn:hover {
+            background: var(--primary-red);
         }
 
         @media (max-width: 768px) {
@@ -124,11 +238,17 @@
             }
 
             .controls-bar {
-                flex-wrap: wrap;
+                gap: 6px;
             }
 
             .btn {
-                font-size: 11px;
+                font-size: 10px;
+                min-width: 70px;
+            }
+
+            .player-area {
+                gap: 8px;
+                padding: 8px;
             }
         }
     </style>
@@ -141,14 +261,28 @@
         </div>
 
         <div class="controls-bar">
-            <button class="btn" onclick="document.querySelector('iframe').src='http://webtv.iptvsmarters.com/switchuser.php'">🔄 Recarregar</button>
-            <button class="btn" onclick="document.querySelector('iframe').requestFullscreen?.()">📺 Fullscreen</button>
-            <button class="btn" onclick="togglePIP()">🔲 Picture-in-Picture</button>
+            <button class="btn" onclick="openIPTVSmarters()">📺 Abrir IPTV Smarters</button>
+            <button class="btn" onclick="fullscreenMode()">🖥️ Fullscreen</button>
             <button class="btn" onclick="showInfo()">ℹ️ Info</button>
+            <button class="btn" onclick="showGuide()">❓ Guia</button>
         </div>
 
-        <div class="player-container">
-            <iframe src="http://webtv.iptvsmarters.com/switchuser.php" allowfullscreen allow="fullscreen"></iframe>
+        <div class="player-area">
+            <div class="player-wrapper">
+                <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <div style="text-align: center; color: #666; font-size: 14px;">
+                        <p style="margin-bottom: 20px;">Clique no botão abaixo para abrir IPTV Smarters</p>
+                        <button class="btn" style="width: 200px; padding: 15px; font-size: 14px;" onclick="openIPTVSmarters()">
+                            ▶️ REPRODUZIR AGORA
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-bar">
+                <strong id="status">✅ Pronto para usar</strong>
+                <p>Backend: IPTV Smarters Professional | Interface: Vitor Pinto Productions</p>
+            </div>
         </div>
 
         <div class="footer">
@@ -156,30 +290,92 @@
         </div>
     </div>
 
+    <!-- Modal Info -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <h2>ℹ️ Sobre IPTV Player Pro</h2>
+            <p><strong>Backend:</strong> IPTV Smarters Professional</p>
+            <p><strong>Frontend:</strong> Vitor Pinto Productions</p>
+            <p><strong>Interface:</strong> Cores Bandeira Portuguesa</p>
+            <p><strong>Compatibilidade:</strong> 100% Responsivo</p>
+            <p><strong>Performance:</strong> Otimizado</p>
+            <button class="close-btn" onclick="closeModal('infoModal')">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Modal Guia -->
+    <div id="guideModal" class="modal">
+        <div class="modal-content">
+            <h2>❓ Como Usar</h2>
+            <p><strong>Passo 1:</strong> Clique em "📺 Abrir IPTV Smarters"</p>
+            <p><strong>Passo 2:</strong> Faça login com suas credenciais</p>
+            <p><strong>Passo 3:</strong> Selecione um canal</p>
+            <p><strong>Passo 4:</strong> Reproduza o conteúdo</p>
+            <p style="margin-top: 15px; font-size: 11px; color: #aaa;">
+                💡 Tip: Use "🖥️ Fullscreen" para modo tela cheia
+            </p>
+            <button class="close-btn" onclick="closeModal('guideModal')">Entendi</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script>
-        function togglePIP() {
-            const video = document.querySelector('video');
-            if (video) {
-                video.requestPictureInPicture?.().catch(() => {
-                    alert('Picture-in-Picture não suportado neste navegador');
-                });
+        new WOW().init();
+
+        function openIPTVSmarters() {
+            // Abre em nova aba/janela
+            window.open('http://webtv.iptvsmarters.com/switchuser.php', 'IPTVSmarters', 'width=1200,height=800');
+            updateStatus('▶️ Abrindo IPTV Smarters...');
+            setTimeout(() => {
+                updateStatus('✅ IPTV Smarters aberto em nova janela');
+            }, 2000);
+        }
+
+        function fullscreenMode() {
+            const elem = document.documentElement;
+            if (!document.fullscreenElement) {
+                elem.requestFullscreen?.() ||
+                elem.webkitRequestFullscreen?.() ||
+                elem.mozRequestFullScreen?.() ||
+                elem.msRequestFullscreen?.();
+                updateStatus('🖥️ Modo fullscreen ativado');
+            } else {
+                document.exitFullscreen?.() ||
+                document.webkitExitFullscreen?.() ||
+                document.mozCancelFullScreen?.() ||
+                document.msExitFullscreen?.();
+                updateStatus('✅ Modo fullscreen desativado');
             }
         }
 
         function showInfo() {
-            alert(`IPTV PLAYER PRO\n\n` +
-                  `✅ Backend: IPTV Smarters Professional\n` +
-                  `🎨 Frontend: Vitor Pinto Productions\n` +
-                  `🇵🇹 Cores: Bandeira Portuguesa\n` +
-                  `📱 Responsivo: Todos os dispositivos\n` +
-                  `⚡ Performance: Otimizado\n\n` +
-                  `© 2025 - Todos os direitos reservados`);
+            document.getElementById('infoModal').classList.add('active');
         }
 
-        console.log('IPTV Player Pro - Backend Profissional Ativo');
+        function showGuide() {
+            document.getElementById('guideModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function updateStatus(text) {
+            document.getElementById('status').textContent = text;
+        }
+
+        // Fechar modal ao clicar fora
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        console.log('IPTV Player Pro - Vitor Pinto Productions © 2025');
     </script>
 </body>
 </html>
+
 
 
 

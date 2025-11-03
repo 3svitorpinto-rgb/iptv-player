@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00a651">
     <meta property="og:title" content="IPTV Player Pro - Vitor Pinto Productions">
     <meta property="og:description" content="Reprodutor IPTV Profissional com Interface Premium">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 630'%3E%3Crect fill='%23000' width='1200' height='630'/%3E%3Crect fill='%2300a651' width='1200' height='210'/%3E%3Crect fill='%23ce1126' y='210' width='1200' height='210'/%3E%3Crect fill='%23ffd700' y='420' width='1200' height='210'/%3E%3Ctext x='600' y='315' font-size='120' fill='%23fff' text-anchor='middle' font-weight='bold'%3E🎬 IPTV PLAYER%3C/text%3E%3C/svg%3E">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="theme-color" content="#00a651">
     
-    <title>🎬 IPTV Player Pro - Vitor Pinto Productions</title>
+    <title>IPTV Player Web - Vitor Pinto Productions</title>
     
-    <!-- Animate CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
     <style>
@@ -45,98 +42,151 @@
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Animated Background */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(-45deg, #000, #1a1a1a, #000, #1a1a1a);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            z-index: -1;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Header com WOW */
         .header {
             background: linear-gradient(90deg, var(--primary-green) 0%, #000 50%, var(--primary-red) 100%);
-            padding: 20px;
+            padding: 15px;
             text-align: center;
-            border-bottom: 5px solid var(--primary-gold);
-            box-shadow: 0 10px 40px rgba(0, 166, 81, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            animation: slideInDown 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-bottom: 3px solid var(--primary-gold);
+            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
+            animation: slideInDown 0.8s ease-out;
         }
 
         @keyframes slideInDown {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .header h1 {
-            font-size: clamp(28px, 8vw, 48px);
-            background: linear-gradient(135deg, var(--primary-gold) 0%, #fff 100%);
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary-gold), #fff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            animation: textGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes textGlow {
-            0%, 100% {
-                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-            }
-            50% {
-                filter: drop-shadow(0 0 30px rgba(206, 17, 38, 0.6));
-            }
+            margin-bottom: 4px;
         }
 
         .header p {
-            font-size: 12px;
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 166, 81, 0.05);
+            border: 2px solid var(--primary-green);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            overflow-y: auto;
+            animation: slideInLeft 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .upload-area {
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2), rgba(206, 17, 38, 0.2));
+            border: 2px dashed var(--primary-gold);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 11px;
             color: #e0e0e0;
-            letter-spacing: 2px;
-            animation: fadeInUp 1.2s ease-out;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .upload-area:hover {
+            border-color: var(--primary-red);
+            background: rgba(206, 17, 38, 0.1);
         }
 
-        /* Main Content */
-        .content {
+        .upload-area input {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #06a047 100%);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-gold);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11px;
+            transition: all 0.3s;
+        }
+
+        .btn:active {
+            background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
+            transform: scale(0.95);
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 8px;
+            background: rgba(0, 166, 81, 0.1);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-green);
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .channels-list {
+            flex: 1;
+            overflow-y: auto;
+            border: 2px solid var(--primary-green);
+            border-radius: 6px;
+            background: rgba(0, 166, 81, 0.02);
+        }
+
+        .channel-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 166, 81, 0.2);
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .channel-item:hover {
+            background: rgba(0, 166, 81, 0.2);
+            padding-left: 14px;
+        }
+
+        .channel-item.active {
+            background: linear-gradient(90deg, rgba(0, 166, 81, 0.3), rgba(206, 17, 38, 0.1));
+            border-left: 5px solid var(--primary-gold);
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .player-section {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 12px;
-            min-height: 0;
-            animation: fadeIn 1.5s ease-out 0.3s both;
+            gap: 8px;
+            animation: fadeIn 1s ease-out 0.3s both;
         }
 
         @keyframes fadeIn {
@@ -148,315 +198,237 @@
             flex: 1;
             background: #000;
             border: 3px solid var(--primary-green);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 166, 81, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            animation: zoomIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
-            min-height: 0;
-        }
-
-        @keyframes zoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        #player-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Buttons Section */
-        .buttons-section {
-            display: flex;
-            gap: 10px;
-            animation: slideInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .btn {
-            flex: 1;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary-green) 0%, #06a047 100%);
-            color: var(--primary-gold);
-            border: 2px solid var(--primary-gold);
             border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 8px 20px rgba(0, 166, 81, 0.3);
-            position: relative;
             overflow: hidden;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            box-shadow: 0 0 30px rgba(0, 166, 81, 0.2);
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        #player {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            background: #000;
         }
 
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:active {
-            background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
-            transform: scale(0.95);
-            box-shadow: 0 4px 15px rgba(206, 17, 38, 0.5);
-        }
-
-        .btn:hover {
-            background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(206, 17, 38, 0.4);
-        }
-
-        /* Info Bar */
         .info-bar {
-            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2) 0%, rgba(206, 17, 38, 0.2) 100%);
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.1), rgba(206, 17, 38, 0.1));
             border: 2px solid var(--primary-gold);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
-            font-size: 11px;
+            font-size: 10px;
             color: #e0e0e0;
-            animation: bounceIn 1s ease-out 0.6s both;
-        }
-
-        @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            70% {
-                transform: scale(0.9);
-            }
-            100% {
-                transform: scale(1);
-            }
         }
 
         .info-bar strong {
             color: var(--primary-gold);
-            display: block;
-            margin-bottom: 4px;
-            font-size: 12px;
         }
 
-        /* Footer */
         .footer {
-            background: linear-gradient(90deg, #000 0%, var(--primary-green) 50%, #000 100%);
+            background: linear-gradient(90deg, #000, var(--primary-green), #000);
             border-top: 3px solid var(--primary-red);
-            padding: 12px;
+            padding: 8px;
             text-align: center;
-            font-size: 10px;
+            font-size: 9px;
             color: #aaa;
-            animation: slideInUp 0.8s ease-out 0.7s both;
         }
 
-        .footer p {
-            margin: 2px 0;
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .footer strong {
-            color: var(--primary-gold);
-        }
-
-        /* Particles Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
+        ::-webkit-scrollbar-thumb {
             background: var(--primary-green);
-            opacity: 0.1;
-            border-radius: 50%;
+            border-radius: 3px;
         }
 
-        /* Responsive */
-        @media (max-width: 480px) {
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 150px;
+            }
+
             .header h1 {
-                font-size: 32px;
-            }
-            .btn {
-                font-size: 12px;
-                padding: 12px;
-            }
-        }
-
-        /* Landscape */
-        @media (max-height: 600px) {
-            .header {
-                padding: 12px;
-            }
-            .content {
-                gap: 8px;
-                padding: 8px;
-            }
-            .btn {
-                padding: 10px;
-                font-size: 12px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="animated-bg"></div>
-    <div class="particles" id="particles"></div>
-
-    <!-- Main Container -->
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <h1>🎬 IPTV PLAYER PRO</h1>
-            <p>VITOR PINTO PRODUCTIONS © 2025</p>
+            <p>Vitor Pinto Productions © 2025</p>
         </div>
 
-        <!-- Content -->
-        <div class="content">
-            <!-- Player -->
-            <div class="player-box">
-                <iframe id="player-frame" src="http://webtv.iptvsmarters.com/switchuser.php" allowfullscreen allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="upload-area" onclick="document.getElementById('m3uFile').click()">
+                    📁 Clique ou arraste M3U
+                    <input type="file" id="m3uFile" accept=".m3u,.m3u8,.txt">
+                </div>
+
+                <div class="controls">
+                    <button class="btn" onclick="playCurrentChannel()">▶️ Reproduzir</button>
+                    <button class="btn" onclick="stopPlayback()">⏹️ Parar</button>
+                </div>
+
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Pesquisar..." onkeyup="filterChannels()">
+
+                <div class="channels-list" id="channelsList">
+                    <div style="padding: 20px; text-align: center; color: #666;">
+                        Carregue um ficheiro M3U para começar
+                    </div>
+                </div>
             </div>
 
-            <!-- Controls -->
-            <div class="buttons-section">
-                <button class="btn" onclick="resetPlayer()">🔄 Recarregar</button>
-                <button class="btn" onclick="toggleFullscreen()">📺 Fullscreen</button>
-                <button class="btn" onclick="shareOnFacebook()">📱 Partilhar</button>
-            </div>
+            <div class="player-section">
+                <div class="player-box">
+                    <video id="player" controls autoplay></video>
+                </div>
 
-            <!-- Info -->
-            <div class="info-bar">
-                <strong>⚡ IPTV PLAYER PROFISSIONAL</strong>
-                Desenvolvido por Vitor Pinto Productions | Interface Premium com Efeitos WOW
+                <div class="info-bar">
+                    <strong id="currentChannel">Nenhum canal selecionado</strong>
+                </div>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer">
-            <p><strong>IPTV Player Web Professional Edition</strong></p>
-            <p>Vitor Pinto Productions © 2025 - Todos os direitos reservados</p>
+            <p>IPTV Player Web Professional Edition | © Vitor Pinto Productions 2025</p>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-    
     <script>
-        // Inicializar WOW.js
+        let channels = [];
+        let filteredChannels = [];
+        let currentIndex = -1;
+
         new WOW().init();
 
-        // Criar partículas animadas
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            for (let i = 0; i < 20; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.width = (Math.random() * 100 + 50) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animation = `float ${Math.random() * 20 + 10}s infinite ease-in-out`;
-                particles.appendChild(particle);
-            }
-        }
+        // Upload M3U
+        document.getElementById('m3uFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
 
-        createParticles();
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                channels = [];
+                const lines = event.target.result.split('\n');
 
-        // Adicionar keyframe para partículas
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                0%, 100% { transform: translate(0, 0); opacity: 0.1; }
-                50% { transform: translate(30px, -30px); opacity: 0.3; }
-            }
-        `;
-        document.head.appendChild(style);
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line.startsWith('#EXTINF')) {
+                        const parts = line.split(',');
+                        const title = parts[1]?.trim() || 'Canal';
+                        const url = lines[i + 1]?.trim();
 
-        // Funções
-        function resetPlayer() {
-            const frame = document.getElementById('player-frame');
-            frame.src = 'about:blank';
-            setTimeout(() => {
-                frame.src = 'http://webtv.iptvsmarters.com/switchuser.php';
-            }, 500);
-        }
-
-        function toggleFullscreen() {
-            const elem = document.documentElement;
-            if (!document.fullscreenElement) {
-                elem.requestFullscreen?.() ||
-                elem.webkitRequestFullscreen?.() ||
-                elem.mozRequestFullScreen?.() ||
-                elem.msRequestFullscreen?.();
-            } else {
-                document.exitFullscreen?.() ||
-                document.webkitExitFullscreen?.() ||
-                document.mozCancelFullScreen?.() ||
-                document.msExitFullscreen?.();
-            }
-        }
-
-        function shareOnFacebook() {
-            const pageUrl = window.location.href;
-            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=🎬 Veja IPTV Player Pro - Reprodutor Profissional com Interface Premium!`;
-            window.open(facebookShareUrl, 'facebook-share', 'width=600,height=400');
-        }
-
-        // Vibração feedback
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                if ('vibrate' in navigator) {
-                    navigator.vibrate([50, 30, 50]);
+                        if (url && !url.startsWith('#')) {
+                            channels.push({ title, url });
+                        }
+                    }
                 }
-            });
+
+                filteredChannels = [...channels];
+                renderChannels();
+                document.getElementById('currentChannel').textContent = `✅ ${channels.length} canais carregados`;
+            };
+
+            reader.readAsText(file);
         });
 
-        // Prevenir zoom
-        document.addEventListener('touchmove', e => {
-            if (e.touches.length > 1) e.preventDefault();
-        }, { passive: false });
+        function renderChannels() {
+            const list = document.getElementById('channelsList');
+            list.innerHTML = '';
 
-        console.log('IPTV Player Pro - Pronto para publicar no Facebook! 🎬');
+            if (filteredChannels.length === 0) {
+                list.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Nenhum canal encontrado</div>';
+                return;
+            }
+
+            filteredChannels.forEach((ch, idx) => {
+                const div = document.createElement('div');
+                div.className = 'channel-item';
+                div.textContent = `${idx + 1}. ${ch.title}`;
+                div.onclick = () => selectChannel(idx);
+                list.appendChild(div);
+            });
+        }
+
+        function selectChannel(idx) {
+            currentIndex = idx;
+            playCurrentChannel();
+        }
+
+        function playCurrentChannel() {
+            if (currentIndex < 0 || currentIndex >= filteredChannels.length) {
+                alert('Selecione um canal primeiro!');
+                return;
+            }
+
+            const channel = filteredChannels[currentIndex];
+            document.getElementById('player').src = channel.url;
+            document.getElementById('currentChannel').textContent = `▶️ ${channel.title}`;
+
+            document.querySelectorAll('.channel-item').forEach((item, i) => {
+                item.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function filterChannels() {
+            const search = document.getElementById('searchBox').value.toLowerCase();
+            filteredChannels = search 
+                ? channels.filter(ch => ch.title.toLowerCase().includes(search))
+                : [...channels];
+            renderChannels();
+        }
+
+        function stopPlayback() {
+            document.getElementById('player').src = '';
+            document.getElementById('player').pause();
+            document.getElementById('currentChannel').textContent = '⏹️ Parado';
+            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+            currentIndex = -1;
+        }
+
+        // Drag and drop
+        document.addEventListener('dragover', e => e.preventDefault());
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (file && (file.name.endsWith('.m3u') || file.name.endsWith('.m3u8') || file.name.endsWith('.txt'))) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    channels = [];
+                    const lines = event.target.result.split('\n');
+
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (line.startsWith('#EXTINF')) {
+                            const parts = line.split(',');
+                            const title = parts[1]?.trim() || 'Canal';
+                            const url = lines[i + 1]?.trim();
+
+                            if (url && !url.startsWith('#')) {
+                                channels.push({ title, url });
+                            }
+                        }
+                    }
+
+                    filteredChannels = [...channels];
+                    renderChannels();
+                    document.getElementById('currentChannel').textContent = `✅ ${channels.length} canais carregados`;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        console.log('IPTV Player Pro - Pronto para usar!');
     </script>
 </body>
 </html>
+
 

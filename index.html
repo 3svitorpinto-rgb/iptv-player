@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPTV Expert Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0e27;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background: #006600;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #FFD700;
+        }
+        header h1 {
+            color: #FFD700;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        header p {
+            color: #FFF;
+            font-size: 14px;
+        }
+        .container {
+            display: flex;
+            height: calc(100vh - 100px);
+            gap: 10px;
+            padding: 10px;
+        }
+        .player {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+        .video-box {
+            background: #000;
+            flex: 1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+        .info {
+            background: #1a1f3a;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #FFD700;
+        }
+        .info h3 {
+            color: #FFD700;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .info p {
+            color: #AAA;
+            font-size: 12px;
+        }
+        .list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+        }
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            background: #006600;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #009900;
+            transform: scale(1.05);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #1a1f3a;
+            color: #FFF;
+            border: 2px solid #2a3f5f;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+        input::placeholder {
+            color: #666;
+        }
+        .status {
+            background: #FF0000;
+            color: #FFD700;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .channels {
+            flex: 1;
+            overflow-y: auto;
+            border: 2px solid #2a3f5f;
+            border-radius: 4px;
+            background: #1a1f3a;
+        }
+        .channel {
+            padding: 10px;
+            border-bottom: 1px solid #2a3f5f;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+            user-select: none;
+        }
+        .channel:hover {
+            background: #2a3f5f;
+            padding-left: 15px;
+        }
+        .channel.active {
+            background: #006600;
+            border-left: 4px solid #FFD700;
+            color: #FFD700;
+            font-weight: bold;
+        }
+        footer {
+            background: #FF0000;
+            color: #FFD700;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            border-top: 3px solid #FFD700;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1f3a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #006600;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #009900;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>IPTV EXPERT PRO</h1>
+        <p>Reproductor de TV en Directo</p>
+    </header>
+    
+    <div class="container">
+        <div class="player">
+            <div class="video-box">
+                <video id="player" controls crossorigin="anonymous"></video>
+            </div>
+            <div class="info">
+                <h3>REPRODUZINDO:</h3>
+                <p id="info">Selecione um canal para começar</p>
+            </div>
+        </div>
+        
+        <div class="list">
+            <div class="status" id="status">Pronto</div>
+            <div class="controls">
+                <button onclick="loadM3U()">📁 Carregar M3U</button>
+                <button onclick="stopChannel()">⏹ Parar</button>
+            </div>
+            <input id="search" type="text" placeholder="🔍 Pesquisar..." onkeyup="filterChannels()">
+            <div class="channels" id="list"></div>
+        </div>
+    </div>
+    
+    <footer>
+        Vitor Pinto 2025 | IPTV Expert Pro | Versão Web HTML5
+    </footer>
+
+    <script>
+        let channels = [];
+        let filteredChannels = [];
+        let currentIndex = -1;
+        const player = document.getElementById('player');
+        const infoText = document.getElementById('info');
+        const statusText = document.getElementById('status');
+        const listDiv = document.getElementById('list');
+
+        function loadM3U() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.m3u,.m3u8';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    channels = [];
+                    const lines = event.target.result.split('\n');
+                    
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i].trim();
+                        if (line.includes('#EXTINF')) {
+                            const title = line.split(',')[1]?.trim() || 'Canal sem nome';
+                            const url = lines[i + 1]?.trim();
+                            if (url && !url.startsWith('#')) {
+                                channels.push({ title, url });
+                            }
+                        }
+                    }
+                    
+                    filteredChannels = [...channels];
+                    renderChannels();
+                    statusText.textContent = `✅ Carregado: ${channels.length} canais`;
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function renderChannels() {
+            if (filteredChannels.length === 0) {
+                listDiv.innerHTML = '<div style="padding:20px;text-align:center;color:#666">Nenhum canal carregado</div>';
+                return;
+            }
+            
+            listDiv.innerHTML = filteredChannels
+                .map((ch, idx) => `<div class="channel" onclick="playChannel(${idx})">${idx + 1}. ${ch.title}</div>`)
+                .join('');
+        }
+
+        function playChannel(idx) {
+            if (idx < 0 || idx >= filteredChannels.length) return;
+            
+            currentIndex = idx;
+            const channel = filteredChannels[idx];
+            infoText.textContent = channel.title;
+            statusText.textContent = `▶ Reproduzindo: ${channel.title}`;
+            player.src = channel.url;
+            player.play().catch(e => {
+                statusText.textContent = `❌ ERRO: ${e.message}`;
+            });
+        }
+
+        function filterChannels() {
+            const search = document.getElementById('search').value.toLowerCase();
+            filteredChannels = search 
+                ? channels.filter(ch => ch.title.toLowerCase().includes(search))
+                : [...channels];
+            renderChannels();
+        }
+
+        function stopChannel() {
+            player.src = '';
+            player.pause();
+            infoText.textContent = 'Parado';
+            statusText.textContent = 'Parado';
+            currentIndex = -1;
+        }
+    </script>
+</body>
+</html>

@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#00a651">
-    <meta property="og:title" content="IPTV Player Pro - Vitor Pinto Productions">
-    <meta property="og:description" content="Reprodutor IPTV Profissional com Interface Premium">
     
-    <title>IPTV Player Web - Vitor Pinto Productions</title>
+    <title>IPTV Player Pro - Vitor Pinto</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     
@@ -18,7 +15,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -41,7 +37,6 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            width: 100%;
         }
 
         .header {
@@ -49,7 +44,6 @@
             padding: 15px;
             text-align: center;
             border-bottom: 3px solid var(--primary-gold);
-            box-shadow: 0 4px 15px rgba(0, 166, 81, 0.3);
             animation: slideInDown 0.8s ease-out;
         }
 
@@ -64,163 +58,55 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 4px;
         }
 
         .header p {
             font-size: 11px;
             color: #aaa;
+            margin-top: 4px;
         }
 
-        .main-content {
-            flex: 1;
+        .controls-bar {
+            background: rgba(0, 166, 81, 0.1);
+            border-bottom: 2px solid var(--primary-green);
+            padding: 12px;
             display: flex;
             gap: 10px;
-            padding: 10px;
-            overflow: hidden;
-        }
-
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 166, 81, 0.05);
-            border: 2px solid var(--primary-green);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 10px;
-            overflow-y: auto;
-            animation: slideInLeft 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes slideInLeft {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .upload-area {
-            background: linear-gradient(135deg, rgba(0, 166, 81, 0.2), rgba(206, 17, 38, 0.2));
-            border: 2px dashed var(--primary-gold);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 11px;
-            color: #e0e0e0;
-        }
-
-        .upload-area:hover {
-            border-color: var(--primary-red);
-            background: rgba(206, 17, 38, 0.1);
-        }
-
-        .upload-area input {
-            display: none;
-        }
-
-        .controls {
-            display: flex;
-            gap: 6px;
+            animation: slideInDown 0.8s ease-out 0.1s both;
         }
 
         .btn {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             background: linear-gradient(135deg, var(--primary-green) 0%, #06a047 100%);
             color: var(--primary-gold);
             border: 2px solid var(--primary-gold);
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 12px;
             transition: all 0.3s;
         }
 
-        .btn:active {
+        .btn:hover {
             background: linear-gradient(135deg, var(--primary-red) 0%, #b50c22 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
             transform: scale(0.95);
         }
 
-        .search-box {
-            width: 100%;
-            padding: 8px;
-            background: rgba(0, 166, 81, 0.1);
-            color: var(--primary-gold);
-            border: 2px solid var(--primary-green);
-            border-radius: 6px;
-            font-size: 11px;
-        }
-
-        .channels-list {
+        .player-container {
             flex: 1;
-            overflow-y: auto;
-            border: 2px solid var(--primary-green);
-            border-radius: 6px;
-            background: rgba(0, 166, 81, 0.02);
-        }
-
-        .channel-item {
-            padding: 10px;
-            border-bottom: 1px solid rgba(0, 166, 81, 0.2);
-            cursor: pointer;
-            font-size: 11px;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        .channel-item:hover {
-            background: rgba(0, 166, 81, 0.2);
-            padding-left: 14px;
-        }
-
-        .channel-item.active {
-            background: linear-gradient(90deg, rgba(0, 166, 81, 0.3), rgba(206, 17, 38, 0.1));
-            border-left: 5px solid var(--primary-gold);
-            color: var(--primary-gold);
-            font-weight: bold;
-        }
-
-        .player-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            animation: fadeIn 1s ease-out 0.3s both;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .player-box {
-            flex: 1;
-            background: #000;
-            border: 3px solid var(--primary-green);
-            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 166, 81, 0.2);
+            position: relative;
         }
 
-        #player {
+        .player-container iframe {
             width: 100%;
             height: 100%;
-            background: #000;
-        }
-
-        .info-bar {
-            background: linear-gradient(135deg, rgba(0, 166, 81, 0.1), rgba(206, 17, 38, 0.1));
-            border: 2px solid var(--primary-gold);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            font-size: 10px;
-            color: #e0e0e0;
-        }
-
-        .info-bar strong {
-            color: var(--primary-gold);
+            border: none;
         }
 
         .footer {
@@ -232,27 +118,17 @@
             color: #aaa;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-green);
-            border-radius: 3px;
-        }
-
         @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                max-height: 150px;
-            }
-
             .header h1 {
                 font-size: 20px;
+            }
+
+            .controls-bar {
+                flex-wrap: wrap;
+            }
+
+            .btn {
+                font-size: 11px;
             }
         }
     </style>
@@ -264,36 +140,15 @@
             <p>Vitor Pinto Productions © 2025</p>
         </div>
 
-        <div class="main-content">
-            <div class="sidebar">
-                <div class="upload-area" onclick="document.getElementById('m3uFile').click()">
-                    📁 Clique ou arraste M3U
-                    <input type="file" id="m3uFile" accept=".m3u,.m3u8,.txt">
-                </div>
+        <div class="controls-bar">
+            <button class="btn" onclick="document.querySelector('iframe').src='http://webtv.iptvsmarters.com/switchuser.php'">🔄 Recarregar</button>
+            <button class="btn" onclick="document.querySelector('iframe').requestFullscreen?.()">📺 Fullscreen</button>
+            <button class="btn" onclick="togglePIP()">🔲 Picture-in-Picture</button>
+            <button class="btn" onclick="showInfo()">ℹ️ Info</button>
+        </div>
 
-                <div class="controls">
-                    <button class="btn" onclick="playCurrentChannel()">▶️ Reproduzir</button>
-                    <button class="btn" onclick="stopPlayback()">⏹️ Parar</button>
-                </div>
-
-                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Pesquisar..." onkeyup="filterChannels()">
-
-                <div class="channels-list" id="channelsList">
-                    <div style="padding: 20px; text-align: center; color: #666;">
-                        Carregue um ficheiro M3U para começar
-                    </div>
-                </div>
-            </div>
-
-            <div class="player-section">
-                <div class="player-box">
-                    <video id="player" controls autoplay></video>
-                </div>
-
-                <div class="info-bar">
-                    <strong id="currentChannel">Nenhum canal selecionado</strong>
-                </div>
-            </div>
+        <div class="player-container">
+            <iframe src="http://webtv.iptvsmarters.com/switchuser.php" allowfullscreen allow="fullscreen"></iframe>
         </div>
 
         <div class="footer">
@@ -301,134 +156,30 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
     <script>
-        let channels = [];
-        let filteredChannels = [];
-        let currentIndex = -1;
-
-        new WOW().init();
-
-        // Upload M3U
-        document.getElementById('m3uFile').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                channels = [];
-                const lines = event.target.result.split('\n');
-
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (line.startsWith('#EXTINF')) {
-                        const parts = line.split(',');
-                        const title = parts[1]?.trim() || 'Canal';
-                        const url = lines[i + 1]?.trim();
-
-                        if (url && !url.startsWith('#')) {
-                            channels.push({ title, url });
-                        }
-                    }
-                }
-
-                filteredChannels = [...channels];
-                renderChannels();
-                document.getElementById('currentChannel').textContent = `✅ ${channels.length} canais carregados`;
-            };
-
-            reader.readAsText(file);
-        });
-
-        function renderChannels() {
-            const list = document.getElementById('channelsList');
-            list.innerHTML = '';
-
-            if (filteredChannels.length === 0) {
-                list.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Nenhum canal encontrado</div>';
-                return;
+        function togglePIP() {
+            const video = document.querySelector('video');
+            if (video) {
+                video.requestPictureInPicture?.().catch(() => {
+                    alert('Picture-in-Picture não suportado neste navegador');
+                });
             }
-
-            filteredChannels.forEach((ch, idx) => {
-                const div = document.createElement('div');
-                div.className = 'channel-item';
-                div.textContent = `${idx + 1}. ${ch.title}`;
-                div.onclick = () => selectChannel(idx);
-                list.appendChild(div);
-            });
         }
 
-        function selectChannel(idx) {
-            currentIndex = idx;
-            playCurrentChannel();
+        function showInfo() {
+            alert(`IPTV PLAYER PRO\n\n` +
+                  `✅ Backend: IPTV Smarters Professional\n` +
+                  `🎨 Frontend: Vitor Pinto Productions\n` +
+                  `🇵🇹 Cores: Bandeira Portuguesa\n` +
+                  `📱 Responsivo: Todos os dispositivos\n` +
+                  `⚡ Performance: Otimizado\n\n` +
+                  `© 2025 - Todos os direitos reservados`);
         }
 
-        function playCurrentChannel() {
-            if (currentIndex < 0 || currentIndex >= filteredChannels.length) {
-                alert('Selecione um canal primeiro!');
-                return;
-            }
-
-            const channel = filteredChannels[currentIndex];
-            document.getElementById('player').src = channel.url;
-            document.getElementById('currentChannel').textContent = `▶️ ${channel.title}`;
-
-            document.querySelectorAll('.channel-item').forEach((item, i) => {
-                item.classList.toggle('active', i === currentIndex);
-            });
-        }
-
-        function filterChannels() {
-            const search = document.getElementById('searchBox').value.toLowerCase();
-            filteredChannels = search 
-                ? channels.filter(ch => ch.title.toLowerCase().includes(search))
-                : [...channels];
-            renderChannels();
-        }
-
-        function stopPlayback() {
-            document.getElementById('player').src = '';
-            document.getElementById('player').pause();
-            document.getElementById('currentChannel').textContent = '⏹️ Parado';
-            document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
-            currentIndex = -1;
-        }
-
-        // Drag and drop
-        document.addEventListener('dragover', e => e.preventDefault());
-        document.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const file = e.dataTransfer.files[0];
-            if (file && (file.name.endsWith('.m3u') || file.name.endsWith('.m3u8') || file.name.endsWith('.txt'))) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    channels = [];
-                    const lines = event.target.result.split('\n');
-
-                    for (let i = 0; i < lines.length; i++) {
-                        const line = lines[i].trim();
-                        if (line.startsWith('#EXTINF')) {
-                            const parts = line.split(',');
-                            const title = parts[1]?.trim() || 'Canal';
-                            const url = lines[i + 1]?.trim();
-
-                            if (url && !url.startsWith('#')) {
-                                channels.push({ title, url });
-                            }
-                        }
-                    }
-
-                    filteredChannels = [...channels];
-                    renderChannels();
-                    document.getElementById('currentChannel').textContent = `✅ ${channels.length} canais carregados`;
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        console.log('IPTV Player Pro - Pronto para usar!');
+        console.log('IPTV Player Pro - Backend Profissional Ativo');
     </script>
 </body>
 </html>
+
 
 

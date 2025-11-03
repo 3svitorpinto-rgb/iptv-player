@@ -1,0 +1,15 @@
+{
+  "name": "iptv-player",
+  "version": "1.0.0",
+  "description": "IPTV Player Web Professional Edition",
+  "main": "index.html",
+  "author": "Vitor Pinto Productions",
+  "license": "MIT",
+  "keywords": [
+    "iptv",
+    "player",
+    "streaming",
+    "web",
+    "responsive"
+  ]
+}
